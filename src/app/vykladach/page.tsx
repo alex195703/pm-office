@@ -4,7 +4,7 @@
 // КАБІНЕТ ВИКЛАДАЧА — /vykladach
 // ------------------------------------------------------------
 // Викладач вставляє «коди звітів», які студенти надсилають
-// після кожної гри (месенджер, пошта), і бачить відомість:
+// після кожного кейсу (месенджер, пошта), і бачить відомість:
 // ім'я, група, XP, посада, результат семінару, бейджі.
 // Дані живуть лише в браузері викладача (localStorage):
 // без сервера, акаунтів і персональних даних на стороні.
@@ -253,7 +253,7 @@ export default function VykladachPage() {
                 href="/"
                 className="rounded-lg border border-white/30 bg-white/10 px-3 py-1.5 text-xs font-bold text-white transition hover:bg-white/20"
               >
-                ← {t('До гри', 'To the game')}
+                ← {t('До хаба', 'Back to hub')}
               </a>
             </div>
           </div>
@@ -270,8 +270,8 @@ export default function VykladachPage() {
             </h2>
             <p className="mt-1 text-xs leading-relaxed text-stone-500">
               {t(
-                'Код студент копіює в розділі «Профіль студента та звіт викладачу» у грі та надсилає вам. Можна вставити одразу кілька кодів — кожен з нового рядка. Той самий студент (ім’я + група) оновлює свій рядок, а не дублює його.',
-                'A student copies the code in the “Student profile and lecturer report” section of the game and sends it to you. You may paste several codes at once — one per line. The same student (name + group) updates their row instead of duplicating it.',
+                'Код студент копіює в розділі «Профіль студента та звіт викладачу» у хабі та надсилає вам. Можна вставити одразу кілька кодів — кожен з нового рядка. Той самий студент (ім’я + група) оновлює свій рядок, а не дублює його.',
+                'A student copies the code in the “Student profile and lecturer report” section of the hub and sends it to you. You may paste several codes at once — one per line. The same student (name + group) updates their row instead of duplicating it.',
               )}
             </p>
             <textarea
@@ -321,7 +321,7 @@ export default function VykladachPage() {
                   <b>{entries.length ? Math.round(totalXp / entries.length) : 0}</b>
                 </span>
                 <span className="rounded-xl bg-white px-3 py-2 font-semibold text-stone-700 ring-1 ring-stone-200">
-                  🎮 {t('Гру 1 пройшли', 'Played game 1')}: <b>{playedG1}</b>
+                  🎮 {t('Кейс 1 пройшли', 'Case 1 completed')}: <b>{playedG1}</b>
                 </span>
               </div>
               <div className="flex flex-wrap items-center gap-2">
@@ -364,14 +364,14 @@ export default function VykladachPage() {
               <ol className="mx-auto mt-3 max-w-xl list-decimal space-y-1.5 pl-5 text-left text-sm leading-relaxed text-stone-600">
                 <li>
                   {t(
-                    'Студент відкриває гру та в розділі «Профіль студента та звіт викладачу» вводить прізвище й групу.',
-                    'A student opens the game and fills in their name and group in the “Student profile and lecturer report” section.',
+                    'Студент відкриває застосунок та в розділі «Профіль студента та звіт викладачу» вводить прізвище й групу.',
+                    'A student opens the app and fills in their name and group in the “Student profile and lecturer report” section.',
                   )}
                 </li>
                 <li>
                   {t(
-                    'Після завершеної гри студент копіює код звіту й надсилає вам (чат групи, пошта).',
-                    'After a completed game the student copies the report code and sends it to you (group chat, e-mail).',
+                    'Після завершеного кейсу студент копіює код звіту й надсилає вам (чат групи, пошта).',
+                    'After a completed case the student copies the report code and sends it to you (group chat, e-mail).',
                   )}
                 </li>
                 <li>

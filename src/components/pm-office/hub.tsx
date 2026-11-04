@@ -4,9 +4,9 @@
 // ПРОЄКТНИЙ ОФІС ВІДНОВЛЕННЯ ГРОМАДИ — хаб (головний екран)
 // ------------------------------------------------------------
 // Кар'єрна траєкторія службовця, чотири індикатори громади,
-// мапа курсу «семінар = гра» (15 семінарів + 2 бос-файти +
+// мапа курсу «семінар = кейс» (15 семінарів + 2 бос-файти +
 // капстоун + симулятор екзамену), полиця бейджів, етичний
-// кодекс серйозної гри та перенесення прогресу кодом.
+// кодекс тренажера та перенесення прогресу кодом.
 // ============================================================
 
 import { useState } from 'react'
@@ -141,8 +141,8 @@ export default function OfficeHub({
               </h2>
               <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/85">
                 {t(
-                  'Перша гра кар’єри: розрізняємо проєктну та поточну діяльність управління, потім розкладаємо учасників проєкту за ролями. Результат — підстава для семінарського бала.',
-                  'The first game of the career: tell project work from ongoing operations, then assign project participants to their roles. The result is grounds for a seminar point.',
+                  'Перший кейс кар’єри: розрізняємо проєктну та поточну діяльність управління, потім розкладаємо учасників проєкту за ролями. Результат — підстава для семінарського бала.',
+                  'The first case of the career: tell project work from ongoing operations, then assign project participants to their roles. The result is grounds for a seminar point.',
                 )}
               </p>
             </div>
@@ -150,7 +150,7 @@ export default function OfficeHub({
               onClick={onPlayGame1}
               className="rounded-xl bg-white px-6 py-3 text-sm font-bold text-[#15857A] shadow transition hover:bg-[#F4F1E9]"
             >
-              ▶ {g1 ? t('Грати ще раз', 'Play again') : t('Почати гру', 'Start the game')}
+              ▶ {g1 ? t('Пройти ще раз', 'Run it again') : t('Почати кейс', 'Start the case')}
             </button>
           </div>
           <div className="mt-3 flex flex-wrap gap-2 text-xs">
@@ -171,7 +171,7 @@ export default function OfficeHub({
       <section aria-labelledby="map-h">
         <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
           <h2 id="map-h" className="text-xs font-bold uppercase tracking-wider text-stone-400">
-            {t('Мапа курсу: семінар = гра', 'Course map: seminar = game')}
+            {t('Мапа курсу: семінар = кейс', 'Course map: seminar = case')}
           </h2>
           <span className="text-[11px] text-stone-400">
             {t('15 семінарів · 2 бос-файти · капстоун · симулятор екзамену', '15 seminars · 2 boss fights · capstone · exam simulator')}
@@ -216,7 +216,7 @@ export default function OfficeHub({
                               onClick={onPlayGame1}
                               className="rounded-lg bg-[#15857A] px-3 py-1.5 text-xs font-bold text-white transition hover:bg-[#0E6B62]"
                             >
-                              ▶ {t('Грати', 'Play')}
+                              ▶ {t('Пройти', 'Run')}
                             </button>
                           ) : (
                             <span className="rounded-lg bg-stone-100 px-2.5 py-1.5 text-[11px] font-medium text-stone-400">
@@ -265,23 +265,23 @@ export default function OfficeHub({
         )}
       </section>
 
-      {/* ================= ПРО ГРУ / ЕТИКА / ПРОГРЕС ================= */}
-      <section className="space-y-2" aria-label={t('Про гру', 'About the game')}>
+      {/* ================= ПРО ТРЕНАЖЕР / ЕТИКА / ПРОГРЕС ================= */}
+      <section className="space-y-2" aria-label={t('Про тренажер', 'About the simulator')}>
         <details className="group rounded-2xl bg-white p-4 ring-1 ring-stone-200">
           <summary className="cursor-pointer text-sm font-bold text-stone-800 marker:content-none">
-            {t('📜 Про гру та її освітню рамку', '📜 About the game and its educational frame')}
+            {t('📜 Про тренажер та його освітню рамку', '📜 About the simulator and its educational frame')}
           </summary>
           <div className="mt-3 space-y-2 text-sm leading-relaxed text-stone-600">
             <p>
               {t(
-                '«Проєктний офіс відновлення громади» — серйозна навчальна гра з дисципліни «Проєктна діяльність органів публічної влади» (КНЕУ, 28 «Публічне управління та адміністрування»). П’ятнадцять семінарів курсу відповідають п’ятнадцяти міні-іграм, два модульні бос-файти репетирують контрольні в Moodle, капстоун «Заявка на відбудову» формує чернетку індивідуального завдання, а симулятор екзамену готує до білету.',
-                'The “Community Recovery Project Office” is a serious learning game for the course “Project Activity of Public Authorities” (KNEU, field 28 “Public Governance and Administration”). The fifteen seminars of the course map one-to-one onto fifteen mini-games; two module boss fights rehearse the Moodle tests; the “Recovery Application” capstone drafts the individual assignment; the exam simulator prepares you for the exam ticket.',
+                '«Проєктний офіс відновлення громади» — ситуаційний тренажер з моделювання проєктної діяльності органів публічної влади (КНЕУ, 28 «Публічне управління та адміністрування»). П’ятнадцять семінарів курсу відповідають п’ятнадцяти сценарним кейсам, два репетиційні тести (бос-файти) відпрацьовують формат контрольних у Moodle, капстоун «Заявка на відбудову» формує чернетку індивідуального завдання, а симулятор екзамену готує до білету.',
+                'The “Community Recovery Project Office” is a situational training simulator for the course “Project Activity of Public Authorities” (KNEU, field 28 “Public Governance and Administration”). The fifteen seminars of the course map one-to-one onto fifteen scenario cases; two rehearsal tests (“boss fights”) rehearse the Moodle tests; the “Recovery Application” capstone drafts the individual assignment; the exam simulator prepares you for the exam ticket.',
               )}
             </p>
             <p>
               {t(
-                'Дія відбувається у вигаданому місті Соснівка (~40 тисяч мешканців), яке повернулося під контроль України та відроджує звичне життя. Гравець починає як головний спеціаліст відділу економічного розвитку міської ради і власними рішеннями розвиває кар’єру — та громаду.',
-                'The game is set in the fictional city of Sosnivka (~40 thousand residents) that has returned under the control of Ukraine and is reviving its everyday life. The player starts as a lead specialist of the city council’s economic development department and grows the career — and the community — through their own decisions.',
+                'Дія відбувається у вигаданому місті Соснівка (~40 тисяч мешканців), яке повернулося під контроль України та відроджує звичне життя. Здобувач починає як головний спеціаліст відділу економічного розвитку міської ради і власними рішеннями розвиває кар’єру — та громаду.',
+                'The simulator is set in the fictional city of Sosnivka (~40 thousand residents) that has returned under the control of Ukraine and is reviving its everyday life. The trainee starts as a lead specialist of the city council’s economic development department and grows the career — and the community — through their own decisions.',
               )}
             </p>
           </div>
@@ -289,7 +289,7 @@ export default function OfficeHub({
 
         <details className="group rounded-2xl bg-white p-4 ring-1 ring-stone-200">
           <summary className="cursor-pointer text-sm font-bold text-stone-800 marker:content-none">
-            {t('🛡️ Етичний кодекс серйозної гри', '🛡️ Serious game code of ethics')}
+            {t('🛡️ Етичний кодекс тренажера', '🛡️ Simulator code of ethics')}
           </summary>
           <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-stone-600">
             <li>
@@ -327,19 +327,19 @@ export default function OfficeHub({
 
         <details className="group rounded-2xl bg-white p-4 ring-1 ring-stone-200">
           <summary className="cursor-pointer text-sm font-bold text-stone-800 marker:content-none">
-            {t('🎓 Як гра працює з балами курсу', '🎓 How the game interacts with course grading')}
+            {t('🎓 Як тренажер працює з балами курсу', '🎓 How the simulator interacts with course grading')}
           </summary>
           <div className="mt-3 space-y-2 text-sm leading-relaxed text-stone-600">
             <p>
               {t(
-                'Бальна шкала дисципліни залишається недоторканою: 30 балів семінарів, 10 — контрольних у Moodle, 10 — індивідуальних завдань, 50 — екзамен. Гра не змінює вимоги програми.',
-                'The course grading scale stays untouched: 30 points for seminars, 10 for the Moodle tests, 10 for individual assignments, 50 for the exam. The game does not change the programme requirements.',
+                'Бальна шкала дисципліни залишається недоторканою: 30 балів семінарів, 10 — контрольних у Moodle, 10 — індивідуальних завдань, 50 — екзамен. Тренажер не змінює вимоги програми.',
+                'The course grading scale stays untouched: 30 points for seminars, 10 for the Moodle tests, 10 for individual assignments, 50 for the exam. The simulator does not change the programme requirements.',
               )}
             </p>
             <p>
               {t(
-                'Роль гри — підготовча: результат міні-гри на семінарі є об’єктивною підставою для 1–2 семінарських балів, бос-файти репетирують формат контрольних, капстоун постачає каркас індивідуального завдання, а бейджі слугують мікросертифікатами перед викладачем.',
-                'The game plays a preparatory role: a mini-game result at the seminar is an objective basis for 1–2 seminar points, the boss fights rehearse the test format, the capstone supplies the skeleton of the individual assignment, and the badges act as micro-certificates for the lecturer.',
+                'Роль тренажера — підготовча: результат кейсу на семінарі є об’єктивною підставою для 1–2 семінарських балів, бос-файти репетирують формат контрольних, капстоун постачає каркас індивідуального завдання, а бейджі слугують мікросертифікатами перед викладачем.',
+                'The simulator plays a preparatory role: a case result at the seminar is an objective basis for 1–2 seminar points, the boss fights rehearse the test format, the capstone supplies the skeleton of the individual assignment, and the badges act as micro-certificates for the lecturer.',
               )}
             </p>
           </div>
@@ -416,8 +416,8 @@ function TeacherReport({
       <div className="mt-3 space-y-3 text-sm leading-relaxed text-stone-600">
         <p>
           {t(
-            'У гри немає акаунтів, тому викладач не бачить ваш прогрес автоматично. Заповніть профіль один раз, а після кожної завершеної гри копіюйте код звіту й надсилайте викладачу — у чат групи або на пошту. Викладач вставить код у кабінет звітів, і ваші бали з’являться у відомості.',
-            'The game has no accounts, so the lecturer cannot see your progress automatically. Fill in the profile once; after each completed game copy the report code and send it to the lecturer — via the group chat or e-mail. The lecturer pastes the code into the reports console, and your points appear in the mark sheet.',
+            'У тренажера немає акаунтів, тому викладач не бачить ваш прогрес автоматично. Заповніть профіль один раз, а після кожного завершеного кейсу копіюйте код звіту й надсилайте викладачу — у чат групи або на пошту. Викладач вставить код у кабінет звітів, і ваші бали з’являться у відомості.',
+            'The simulator has no accounts, so the lecturer cannot see your progress automatically. Fill in the profile once; after each completed case copy the report code and send it to the lecturer — via the group chat or e-mail. The lecturer pastes the code into the reports console, and your points appear in the mark sheet.',
           )}
         </p>
         <div className="grid gap-2 sm:grid-cols-[1fr_1fr_auto] sm:items-center">
@@ -467,8 +467,8 @@ function TeacherReport({
           </div>
           <p className="mt-2 text-[11px] leading-snug text-stone-500">
             {t(
-              'Код оновлюється після кожної гри — надсилайте викладачу найсвіжіший.',
-              'The code refreshes after every game — always send the latest one.',
+              'Код оновлюється після кожного кейсу — надсилайте викладачу найсвіжіший.',
+              'The code refreshes after every case — always send the latest one.',
             )}
           </p>
         </div>

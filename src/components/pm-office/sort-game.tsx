@@ -39,7 +39,7 @@ export default function SortGame({
   onFinish,
   onExit,
 }: {
-  firstCompletion: boolean // чи вже була завершена гра в прогресі
+  firstCompletion: boolean // чи вже був завершений кейс у прогресі
   onFinish: (o: Game1Outcome) => void // викликається рівно один раз перед фіналом
   onExit: () => void
 }) {
@@ -153,8 +153,8 @@ export default function SortGame({
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-stone-600">
             {t(
-              'Мета гри — навчитися розрізняти проєктну та поточну (операційну) діяльність органу публічної влади. Це перший крок проєктного мислення: уся дисципліна стосується саме проєктів, тому важливо бачити різницю.',
-              'The goal of this game is to learn to tell project work apart from the ongoing (operational) activity of a public authority. It is the first step of project thinking: the whole discipline deals with projects, so the difference matters.',
+              'Мета кейсу — навчитися розрізняти проєктну та поточну (операційну) діяльність органу публічної влади. Це перший крок проєктного мислення: уся дисципліна стосується саме проєктів, тому важливо бачити різницю.',
+              'The goal of this case is to learn to tell project work apart from the ongoing (operational) activity of a public authority. It is the first step of project thinking: the whole discipline deals with projects, so the difference matters.',
             )}
           </p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -469,7 +469,7 @@ export default function SortGame({
             className="rounded-xl bg-[#15857A] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#0E6B62]"
           >
             {scenarioIdx + 1 >= ROLE_SCENARIOS.length
-              ? t('До підсумків гри →', 'To the game summary →')
+              ? t('До підсумків кейсу →', 'To the case summary →')
               : t('Наступний сценарій →', 'Next scenario →')}
           </button>
         )}
@@ -486,7 +486,7 @@ export default function SortGame({
     <div className="mx-auto max-w-3xl space-y-4">
       <div className="rounded-2xl bg-white p-6 ring-1 ring-stone-200">
         <div className="text-xs font-bold uppercase tracking-wider text-[#FF6A3B]">
-          {t('Гра завершена', 'Game complete')}
+          {t('Кейс завершено', 'Case complete')}
         </div>
         <h2 className="mt-1 text-xl font-bold text-stone-800">
           {o && o.mistakes === 0

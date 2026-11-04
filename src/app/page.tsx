@@ -3,10 +3,11 @@
 // ============================================================
 // ПРОЄКТНИЙ ОФІС ВІДНОВЛЕННЯ ГРОМАДИ · Соснівка — оболонка
 // ------------------------------------------------------------
-// Серйозна навчальна гра з дисципліни «Проєктна діяльність
-// органів публічної влади» (КНЕУ): наскрізна кар'єра службовця
-// + міні-ігри «семінар = гра». Логіка — у src/lib/pm-office.ts,
-// хаб — components/pm-office/hub.tsx, гра семінару 1 —
+// Ситуаційний тренажер проєктної діяльності з дисципліни
+// «Проєктна діяльність органів публічної влади» (КНЕУ):
+// наскрізна кар'єра службовця + сценарні кейси «семінар = кейс».
+// Логіка — у src/lib/pm-office.ts,
+// хаб — components/pm-office/hub.tsx, кейс семінару 1 —
 // components/pm-office/sort-game.tsx. Прогрес — у localStorage,
 // без облікових записів і персональних даних.
 // ============================================================
@@ -30,8 +31,8 @@ type View = 'office' | 'g1'
 export default function PmOfficeApp() {
   const t = useL()
   useTitle(
-    'Проєктний офіс відновлення громади — серйозна навчальна гра',
-    'Community Recovery Project Office — a serious learning game',
+    'Проєктний офіс відновлення громади — ситуаційний тренажер',
+    'Community Recovery Project Office — a situational training simulator',
   )
 
   const [view, setView] = useState<View>('office')
@@ -106,8 +107,8 @@ export default function PmOfficeApp() {
                 </h1>
                 <p className="mt-1 max-w-2xl text-xs leading-relaxed text-white/75 sm:text-sm">
                   {t(
-                    'Серйозна навчальна гра з дисципліни «Проєктна діяльність органів публічної влади» · КНЕУ',
-                    'A serious learning game for the course “Project Activity of Public Authorities” · KNEU',
+                    'Ситуаційний тренажер проєктної діяльності · «Проєктна діяльність органів публічної влади» · КНЕУ',
+                    'A situational training simulator for the course “Project Activity of Public Authorities” · KNEU',
                   )}
                 </p>
               </div>
@@ -150,8 +151,8 @@ export default function PmOfficeApp() {
       <footer className="mt-auto bg-[#0E6B62] px-4 py-4 text-center text-[11px] leading-relaxed text-white/70 sm:px-6">
         <p>
           {t(
-            'Проєктний офіс відновлення громади · Серйозні навчальні ігри · Листопад 2026',
-            'Community Recovery Project Office · Serious learning games · November 2026',
+            'Проєктний офіс відновлення громади · Ситуаційний тренажер проєктної діяльності · Листопад 2026',
+            'Community Recovery Project Office · Situational project-activity simulator · November 2026',
           )}
         </p>
         <p className="mt-1">
