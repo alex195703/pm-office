@@ -933,6 +933,9 @@ export interface Progress {
   indicators: Indicators
   badges: string[]
   games: Record<string, GameRecord>
+  /** Профіль студента (необов’язковий): уводиться в хабі, потрібен для звіту викладачу */
+  name?: string
+  group?: string
 }
 
 export const STORAGE_KEY = 'pm-office-v1'
@@ -954,6 +957,8 @@ export function normalizeProgress(raw: unknown): Progress {
   }
   if (raw && typeof raw === 'object') {
     const o = raw as Record<string, unknown>
+    if (typeof o.name === 'string' && o.name.trim()) p.name = o.name.trim().slice(0, 80)
+    if (typeof o.group === 'string' && o.group.trim()) p.group = o.group.trim().slice(0, 40)
     if (typeof o.xp === 'number' && Number.isFinite(o.xp) && o.xp >= 0) p.xp = Math.floor(o.xp)
     if (o.indicators && typeof o.indicators === 'object') {
       const ind = o.indicators as Record<string, unknown>
@@ -995,6 +1000,80 @@ export function progressFromCode(code: string): Progress | null {
     const raw: unknown = JSON.parse(json)
     if (!raw || typeof raw !== 'object') return null
     return normalizeProgress(raw)
+  } catch {
+    return null
+  }
+}
+
+// ------------------------------------------------------------
+// ЗВІТ ВИКЛАДАЧУ (кабінет /vykladach)
+// ------------------------------------------------------------
+// Студент після кожної гри копіює «код звіту» — компактний
+// стан прогресу разом з іменем, групою й датою — і надсилає
+// викладачу (месенджер, пошта). Викладач вставляє код у кабінет:
+// без жодного сервера, бази чи акаунтів. Контрольна сума
+// ловить обриви й одруківки; від підробки код захищає лише
+// звірка бейджів на семінарі (гру проєктовано як підставу
+// до балів, а не заміну журналу).
+// ------------------------------------------------------------
+
+export interface StudentReport {
+  name: string
+  group: string
+  date: number // коли студент згенерував код (Date.now())
+  progress: Progress
+}
+
+const REPORT_PREFIX = 'PMR1'
+
+/** FNV-1a → 4 символи base36: ловить обриви й одруківки (не криптографія) */
+function checksum4(s: string): string {
+  let h = 0x811c9dc5
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i)
+    h = Math.imul(h, 0x01000193) >>> 0
+  }
+  return (h % 1679616).toString(36).padStart(4, '0')
+}
+
+/** Код звіту викладачу: PMR1.<base64 компактного JSON>.<контрольна сума> */
+export function reportCode(p: Progress): string {
+  try {
+    const payload = {
+      n: p.name ?? '',
+      g: p.group ?? '',
+      d: Date.now(),
+      xp: p.xp,
+      i: p.indicators,
+      b: p.badges,
+      m: p.games,
+    }
+    const body = btoa(encodeURIComponent(JSON.stringify(payload)))
+    return `${REPORT_PREFIX}.${body}.${checksum4(body)}`
+  } catch {
+    return ''
+  }
+}
+
+/** Розбір коду звіту; повертає null для чужих/пошкоджених рядків */
+export function reportFromCode(code: string): StudentReport | null {
+  try {
+    const parts = code.trim().split('.')
+    if (parts.length !== 3 || parts[0] !== REPORT_PREFIX) return null
+    const body = parts[1]
+    if (checksum4(body) !== parts[2]) return null
+    const raw: unknown = JSON.parse(decodeURIComponent(atob(body)))
+    if (!raw || typeof raw !== 'object') return null
+    const o = raw as Record<string, unknown>
+    return {
+      name: typeof o.n === 'string' ? o.n.trim().slice(0, 80) : '',
+      group: typeof o.g === 'string' ? o.g.trim().slice(0, 40) : '',
+      date:
+        typeof o.d === 'number' && Number.isFinite(o.d) && o.d > 0
+          ? Math.floor(o.d)
+          : Date.now(),
+      progress: normalizeProgress({ xp: o.xp, indicators: o.i, badges: o.b, games: o.m }),
+    }
   } catch {
     return null
   }

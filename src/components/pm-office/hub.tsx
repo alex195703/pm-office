@@ -10,7 +10,7 @@
 // ============================================================
 
 import { useState } from 'react'
-import { useBi, useL } from '@/lib/pm-i18n'
+import { getLang, useBi, useL } from '@/lib/pm-i18n'
 import {
   ACTS,
   BADGES,
@@ -20,6 +20,7 @@ import {
   progressCode,
   progressFromCode,
   rankFor,
+  reportCode,
   type Progress,
 } from '@/lib/pm-office'
 
@@ -27,10 +28,12 @@ export default function OfficeHub({
   progress,
   onPlayGame1,
   onImportProgress,
+  onProfile,
 }: {
   progress: Progress
   onPlayGame1: () => void
   onImportProgress: (p: Progress) => void
+  onProfile: (name: string, group: string) => void
 }) {
   const t = useL()
   const B = useBi()
@@ -342,9 +345,143 @@ export default function OfficeHub({
           </div>
         </details>
 
+        <TeacherReport progress={progress} onProfile={onProfile} />
         <ProgressTransfer progress={progress} onImport={onImportProgress} />
       </section>
     </div>
+  )
+}
+
+// ============================================================
+// ПРОФІЛЬ СТУДЕНТА + ЗВІТ ВИКЛАДАЧУ
+// ============================================================
+
+function TeacherReport({
+  progress,
+  onProfile,
+}: {
+  progress: Progress
+  onProfile: (name: string, group: string) => void
+}) {
+  const t = useL()
+  const [nameDraft, setNameDraft] = useState('')
+  const [groupDraft, setGroupDraft] = useState('')
+  const [dirty, setDirty] = useState(false)
+  const [savedFlash, setSavedFlash] = useState(false)
+  const [copied, setCopied] = useState(false)
+
+  // поки користувач не редагував поля — показуємо збережений профіль
+  const name = dirty ? nameDraft : (progress.name ?? '')
+  const group = dirty ? groupDraft : (progress.group ?? '')
+
+  const commit = () => {
+    const n = name.trim().slice(0, 80)
+    const g = group.trim().slice(0, 40)
+    setNameDraft(n)
+    setGroupDraft(g)
+    if (n === (progress.name ?? '') && g === (progress.group ?? '')) return
+    onProfile(n, g)
+    setSavedFlash(true)
+    setTimeout(() => setSavedFlash(false), 2000)
+  }
+
+  // код звіту завжди з актуальним профілем — навіть якщо ще не збережений
+  const codeStr = reportCode({ ...progress, name: name.trim(), group: group.trim() })
+
+  const copy = async () => {
+    // гарантія: збережений профіль синхронний із надісланим кодом
+    // (користувач міг не торкнутися іншого поля після введення групи)
+    commit()
+    try {
+      await navigator.clipboard.writeText(codeStr)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      /* clipboard недоступний — код можна скопіювати вручну */
+      setCopied(false)
+    }
+  }
+
+  const openTeacher = () => {
+    const u = new URL('/vykladach', window.location.href)
+    u.searchParams.set('lang', getLang())
+    window.location.assign(u.toString())
+  }
+
+  return (
+    <details className="group rounded-2xl bg-white p-4 ring-1 ring-stone-200">
+      <summary className="cursor-pointer text-sm font-bold text-stone-800 marker:content-none">
+        {t('🧾 Профіль студента та звіт викладачу', '🧾 Student profile and lecturer report')}
+      </summary>
+      <div className="mt-3 space-y-3 text-sm leading-relaxed text-stone-600">
+        <p>
+          {t(
+            'У гри немає акаунтів, тому викладач не бачить ваш прогрес автоматично. Заповніть профіль один раз, а після кожної завершеної гри копіюйте код звіту й надсилайте викладачу — у чат групи або на пошту. Викладач вставить код у кабінет звітів, і ваші бали з’являться у відомості.',
+            'The game has no accounts, so the lecturer cannot see your progress automatically. Fill in the profile once; after each completed game copy the report code and send it to the lecturer — via the group chat or e-mail. The lecturer pastes the code into the reports console, and your points appear in the mark sheet.',
+          )}
+        </p>
+        <div className="grid gap-2 sm:grid-cols-[1fr_1fr_auto] sm:items-center">
+          <input
+            value={name}
+            onChange={(e) => {
+              setNameDraft(e.target.value)
+              setDirty(true)
+            }}
+            onBlur={commit}
+            placeholder={t('Прізвище та ім’я', 'Full name')}
+            aria-label={t('Прізвище та ім’я студента', 'Student full name')}
+            className="rounded-lg bg-white px-2.5 py-2 text-xs text-stone-700 ring-1 ring-stone-300 focus:outline-none focus:ring-2 focus:ring-[#15857A]"
+          />
+          <input
+            value={group}
+            onChange={(e) => {
+              setGroupDraft(e.target.value)
+              setDirty(true)
+            }}
+            onBlur={commit}
+            placeholder={t('Група (наприклад, ПУ-31)', 'Group (e.g. PU-31)')}
+            aria-label={t('Навчальна група студента', 'Student group')}
+            className="rounded-lg bg-white px-2.5 py-2 text-xs text-stone-700 ring-1 ring-stone-300 focus:outline-none focus:ring-2 focus:ring-[#15857A]"
+          />
+          <button
+            onClick={commit}
+            className="rounded-lg bg-[#15857A] px-4 py-2 text-xs font-bold text-white transition hover:bg-[#0E6B62]"
+          >
+            {savedFlash ? t('✓ збережено', '✓ saved') : t('Зберегти профіль', 'Save profile')}
+          </button>
+        </div>
+        <div className="rounded-xl bg-stone-50 p-3 ring-1 ring-stone-200">
+          <div className="text-xs font-bold uppercase tracking-wide text-stone-400">
+            {t('Код звіту викладачу', 'Report code for the lecturer')}
+          </div>
+          <div className="mt-1.5 flex flex-wrap items-center gap-2">
+            <code className="max-w-full flex-1 overflow-x-auto whitespace-nowrap rounded-lg bg-white px-2.5 py-2 text-[11px] text-stone-600 ring-1 ring-stone-200">
+              {codeStr || '—'}
+            </code>
+            <button
+              onClick={copy}
+              className="rounded-lg bg-[#15857A] px-3 py-2 text-xs font-bold text-white transition hover:bg-[#0E6B62]"
+            >
+              {copied ? t('✓ скопійовано', '✓ copied') : t('Копіювати код звіту', 'Copy report code')}
+            </button>
+          </div>
+          <p className="mt-2 text-[11px] leading-snug text-stone-500">
+            {t(
+              'Код оновлюється після кожної гри — надсилайте викладачу найсвіжіший.',
+              'The code refreshes after every game — always send the latest one.',
+            )}
+          </p>
+        </div>
+        <p>
+          <button
+            onClick={openTeacher}
+            className="font-semibold text-[#15857A] underline transition hover:text-[#0E6B62]"
+          >
+            {t('Ви викладач? Відкрийте кабінет звітів →', 'Are you the lecturer? Open the reports console →')}
+          </button>
+        </p>
+      </div>
+    </details>
   )
 }
 

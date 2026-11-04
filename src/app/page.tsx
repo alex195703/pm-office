@@ -131,7 +131,12 @@ export default function PmOfficeApp() {
       {/* ================= ВМІСТ ================= */}
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6">
         {view === 'office' ? (
-          <OfficeHub progress={progress} onPlayGame1={() => setView('g1')} onImportProgress={setProgress} />
+          <OfficeHub
+            progress={progress}
+            onPlayGame1={() => setView('g1')}
+            onImportProgress={setProgress}
+            onProfile={(name, group) => setProgress((prev) => ({ ...prev, name, group }))}
+          />
         ) : (
           <SortGame
             firstCompletion={!(progress.games['g1'] && progress.games['g1'].completions > 0)}
@@ -154,6 +159,14 @@ export default function PmOfficeApp() {
             'Місто, персонажі та кейси повністю вигадані. Війна присутня лише як управлінські умови — без бойових сцен. Прогрес зберігається локально у вашому браузері.',
             'The city, characters and cases are entirely fictional. The war appears only as administrative conditions — no combat scenes. Progress is stored locally in your browser.',
           )}
+        </p>
+        <p className="mt-2">
+          <a
+            href="/vykladach"
+            className="font-semibold text-white/90 underline transition hover:text-white"
+          >
+            {t('Кабінет викладача', 'Lecturer console')}
+          </a>
         </p>
       </footer>
     </div>
