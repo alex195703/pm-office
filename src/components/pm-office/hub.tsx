@@ -180,8 +180,8 @@ export default function OfficeHub({
           <div className="mt-3 flex flex-wrap gap-2 text-xs">
             <span className="rounded-lg bg-white/10 px-2.5 py-1">
               {t(
-                `доступно кейсів: ${availableCount} з 18`,
-                `available cases: ${availableCount} of 18`,
+                `доступно кейсів: ${availableCount} з 19`,
+                `available cases: ${availableCount} of 19`,
               )}
             </span>
             {g1 && (
