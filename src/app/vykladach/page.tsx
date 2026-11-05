@@ -34,12 +34,51 @@ interface Entry {
 
 const TEACHER_KEY = 'pm-office-teacher-v1'
 
+// ============================================================
+// PIN-захист кабінету: студентам не має бути зручно сюди зайти.
+// Змініть PIN тут або задайте змінну середовища NEXT_PUBLIC_TEACHER_PIN
+// у Vercel (Settings → Environment Variables) та зробіть редеплой.
+// Далі — лише UI-захист: відомість і так зберігається лише у браузері викладача.
+// ============================================================
+const TEACHER_PIN = process.env.NEXT_PUBLIC_TEACHER_PIN || '1957'
+const PIN_SESSION_KEY = 'pm-office-teacher-pin-ok'
+
 type SortMode = 'added' | 'xp' | 'name'
 
 export default function VykladachPage() {
   const t = useL()
   const B = useBi()
   useTitle('Кабінет викладача — Проєктний офіс громади', 'Lecturer console — Community PM Office')
+
+  const [pinOk, setPinOk] = useState(false)
+  const [pinDraft, setPinDraft] = useState('')
+  const [pinErr, setPinErr] = useState(false)
+
+  // перевірка раніше введеного PIN (у межах сесії вкладки)
+  useEffect(() => {
+    queueMicrotask(() => {
+      try {
+        if (sessionStorage.getItem(PIN_SESSION_KEY) === '1') setPinOk(true)
+      } catch {
+        /* приватний режим — щоразу питати PIN */
+      }
+    })
+  }, [])
+
+  const submitPin = () => {
+    if (pinDraft.trim() === TEACHER_PIN) {
+      try {
+        sessionStorage.setItem(PIN_SESSION_KEY, '1')
+      } catch {
+        /* приватний режим — пустимо без запам'ятовування */
+      }
+      setPinOk(true)
+      setPinErr(false)
+    } else {
+      setPinErr(true)
+      setPinDraft('')
+    }
+  }
 
   const [entries, setEntries] = useState<Entry[]>([])
   const [code, setCode] = useState('')
@@ -225,6 +264,70 @@ export default function VykladachPage() {
     a.download = `pm-office-vidomist-${new Date().toISOString().slice(0, 10)}.csv`
     a.click()
     URL.revokeObjectURL(a.href)
+  }
+
+  // ============================================================
+  // PIN-ЕКРАН: кабінет відкривається лише викладачу
+  // ============================================================
+  if (!pinOk) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[#F4F1E9] px-4 text-stone-800">
+        <div className="w-full max-w-sm rounded-2xl bg-white p-6 ring-1 ring-stone-200">
+          <div className="text-center text-4xl" aria-hidden>
+            🔐
+          </div>
+          <h1 className="mt-2 text-center text-lg font-bold">
+            {t('Кабінет викладача', 'Lecturer console')}
+          </h1>
+          <p className="mt-1 text-center text-xs leading-relaxed text-stone-500">
+            {t(
+              'Сторона студентів — у хабі: там вони копіюють код звіту. Ця сторінка — лише для викладача. Уведіть PIN.',
+              'The students’ side is in the hub: that is where they copy the report code. This page is for the lecturer only. Enter the PIN.',
+            )}
+          </p>
+          <label className="mt-4 block text-xs font-semibold text-stone-500" htmlFor="pin-input">
+            {t('PIN-код доступу', 'Access PIN')}
+          </label>
+          <div className="mt-1.5 flex gap-2">
+            <input
+              id="pin-input"
+              type="password"
+              inputMode="numeric"
+              autoComplete="off"
+              value={pinDraft}
+              onChange={(e) => {
+                setPinDraft(e.target.value)
+                setPinErr(false)
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') submitPin()
+              }}
+              placeholder="••••"
+              aria-label={t('PIN-код доступу', 'Access PIN')}
+              className={`min-w-0 flex-1 rounded-lg bg-white px-3 py-2 text-sm tracking-widest text-stone-700 ring-1 focus:outline-none focus:ring-2 ${
+                pinErr ? 'ring-red-300 focus:ring-red-400' : 'ring-stone-300 focus:ring-[#15857A]'
+              }`}
+            />
+            <button
+              onClick={submitPin}
+              className="rounded-lg bg-[#15857A] px-4 py-2 text-sm font-bold text-white transition hover:bg-[#0E6B62]"
+            >
+              {t('Увійти', 'Enter')}
+            </button>
+          </div>
+          {pinErr && (
+            <p className="mt-2 text-xs font-medium text-red-600" role="alert">
+              {t('Невірний PIN. Спробуйте ще раз.', 'Wrong PIN. Please try again.')}
+            </p>
+          )}
+          <p className="mt-4 text-center text-[11px] leading-snug text-stone-400">
+            <a href="/" className="underline transition hover:text-stone-600">
+              {t('← Повернутися до тренажера', '← Back to the simulator')}
+            </a>
+          </p>
+        </div>
+      </div>
+    )
   }
 
   return (

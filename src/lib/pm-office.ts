@@ -33,7 +33,7 @@ export const RANKS: Rank[] = [
   },
   {
     id: 'sector',
-    xp: 100,
+    xp: 500,
     title: {
       uk: 'Керівник сектора проєктів',
       en: 'Head of the Project Unit',
@@ -41,7 +41,7 @@ export const RANKS: Rank[] = [
   },
   {
     id: 'dept',
-    xp: 250,
+    xp: 1100,
     title: {
       uk: 'Директор департаменту регіонального розвитку',
       en: 'Director of the Regional Development Department',
@@ -49,7 +49,7 @@ export const RANKS: Rank[] = [
   },
   {
     id: 'office',
-    xp: 450,
+    xp: 1700,
     title: {
       uk: 'Керівник проєктного офісу відновлення громади',
       en: 'Head of the Community Recovery Project Office',
@@ -243,6 +243,56 @@ export const BADGES: Badge[] = [
       en: 'Complete the “Recovery Application” capstone',
     },
     topic: { uk: 'Індивідуальне завдання', en: 'Individual assignment' },
+  },
+  {
+    id: 'scales',
+    icon: '⚖️',
+    name: { uk: 'Хранитель цінності', en: 'Value Keeper' },
+    condition: {
+      uk: 'Зважити явні й неявні вигоди у «Вагах громади» без помилок',
+      en: 'Weigh explicit and implicit benefits in “Community Scales” without mistakes',
+    },
+    topic: { uk: 'Тема 3', en: 'Topic 3' },
+  },
+  {
+    id: 'planner',
+    icon: '📐',
+    name: { uk: 'Архітектор плану', en: 'Plan Architect' },
+    condition: {
+      uk: 'Зібрати дерево цілей і структуру плану у «План-конструкторі»',
+      en: 'Assemble the goal tree and plan structure in the “Plan Builder”',
+    },
+    topic: { uk: 'Тема 6', en: 'Topic 6' },
+  },
+  {
+    id: 'boss1',
+    icon: '🛡️',
+    name: { uk: 'Завойовник Модулю 1', en: 'Module 1 Conqueror' },
+    condition: {
+      uk: 'Дати ≥ 8 правильних відповідей у «Бос-файті Модуль 1»',
+      en: 'Give ≥ 8 correct answers in “Boss Fight: Module 1”',
+    },
+    topic: { uk: 'КР №1', en: 'MT #1' },
+  },
+  {
+    id: 'boss2',
+    icon: '⚔️',
+    name: { uk: 'Завойовник Модулю 2', en: 'Module 2 Conqueror' },
+    condition: {
+      uk: 'Дати ≥ 8 правильних відповідей у «Бос-файті Модуль 2»',
+      en: 'Give ≥ 8 correct answers in “Boss Fight: Module 2”',
+    },
+    topic: { uk: 'КР №2', en: 'MT #2' },
+  },
+  {
+    id: 'graduate',
+    icon: '🎓',
+    name: { uk: 'Випускник проєктного офісу', en: 'PM Office Graduate' },
+    condition: {
+      uk: 'Пройти симулятор екзамену з повним білетом',
+      en: 'Complete the exam simulator with a full ticket',
+    },
+    topic: { uk: 'Екзамен', en: 'Exam' },
   },
 ]
 
@@ -705,6 +755,78 @@ export const SORT_CARDS: SortCard[] = [
       en: 'A time-limited cycle with a defined outcome (a trained group, issued certificates) — a unique community initiative.',
     },
   },
+  {
+    id: 'c13',
+    text: {
+      uk: 'Провести свято «День повернення Соснівки» на центральній площі',
+      en: 'Hold the “Day of Sosnivka’s Return” festival on the central square',
+    },
+    isProject: true,
+    why: {
+      uk: 'Разова подія з датою, унікальною програмою і визначеним результатом — святом, якого раніше не було.',
+      en: 'A one-off event with a date, a unique programme and a defined result — a festival that never existed before.',
+    },
+  },
+  {
+    id: 'c14',
+    text: {
+      uk: 'Щоденне прибирання та вивезення сміття в центральному парку',
+      en: 'Daily cleaning and waste collection in the central park',
+    },
+    isProject: false,
+    why: {
+      uk: 'Постійна операційна діяльність комунальної служби: цикл повторюється щодня і не має дати завершення.',
+      en: 'Continuous municipal operations: the cycle repeats daily and has no end date.',
+    },
+  },
+  {
+    id: 'c15',
+    text: {
+      uk: 'Створити мобільний додаток «Соснівка Онлайн» для звернень мешканців',
+      en: 'Create the “Sosnivka Online” mobile app for residents’ requests',
+    },
+    isProject: true,
+    why: {
+      uk: 'Продукт створюється один раз: є унікальний результат (працюючий додаток), бюджет, команда і дата релізу.',
+      en: 'The product is built once: there is a unique outcome (a working app), a budget, a team and a release date.',
+    },
+  },
+  {
+    id: 'c16',
+    text: {
+      uk: 'Щомісяця виплачувати субсидії мешканцям за затвердженими правилами',
+      en: 'Pay monthly subsidies to residents under the approved rules',
+    },
+    isProject: false,
+    why: {
+      uk: 'Регулярна процедура соціальної підтримки: повторюється щомісяця за сталим регламентом, без кінцевого результату.',
+      en: 'A regular social-support procedure: it repeats monthly under a standing regulation, with no finite outcome.',
+    },
+  },
+  {
+    id: 'c17',
+    text: {
+      uk: 'Капітально відремонтувати тепломережу мікрорайону до опалювального сезону',
+      en: 'Overhaul the neighbourhood heating network before the heating season',
+    },
+    isProject: true,
+    why: {
+      uk: 'Разова капітальна робота з чітким обсягом, бюджетом і дедлайном — не плутати з плановим технічним обслуговуванням.',
+      en: 'A one-off capital effort with a clear scope, budget and deadline — not to be confused with scheduled maintenance.',
+    },
+  },
+  {
+    id: 'c18',
+    text: {
+      uk: 'Підтримувати роботу модульного укриття при школі № 3: черги, прибирання, дрібний ремонт',
+      en: 'Maintain the modular shelter at School No. 3: duty shifts, cleaning, minor repairs',
+    },
+    isProject: false,
+    why: {
+      uk: 'Це вже експлуатація результату минулого проєкту: діяльність безперервна, результати повторювані. Проєкт закінчився — почалася рутина.',
+      en: 'This is operation of a past project’s result: continuous activity with repetitive outcomes. The project ended — routine began.',
+    },
+  },
 ]
 
 export const SORT_SECONDS = 20 // час на одну картку
@@ -863,6 +985,214 @@ export const ROLE_SCENARIOS: RoleScenario[] = [
       },
     ],
   },
+  {
+    id: 'r3',
+    title: { uk: 'Проєкт «Мобільний додаток “Соснівка Онлайн”»', en: 'Project “Sosnivka Online mobile app”' },
+    intro: {
+      uk: 'Громада хоче приймати звернення мешканців у смартфоні. Розподіліть учасників за ролями — тут є пастка: двоє претендують на схожі функції.',
+      en: 'The community wants to receive residents’ requests in a smartphone. Assign the participants — there is a trap here: two of them claim similar functions.',
+    },
+    participants: [
+      {
+        id: 'z1',
+        name: { uk: 'Департамент цифрового розвитку міської ради', en: 'City council digital development department' },
+        hint: {
+          uk: 'Замовив розробку, формує технічне завдання і приймає готовий додаток',
+          en: 'Commissioned the development, sets the terms of reference and accepts the finished app',
+        },
+        roleId: 'customer',
+      },
+      {
+        id: 'z2',
+        name: { uk: 'ІТ-студія «Код.Соснівка»', en: 'Kod.Sosnivka IT studio' },
+        hint: {
+          uk: 'Проєктує, розробляє й запускає додаток за договором',
+          en: 'Designs, develops and launches the app under contract',
+        },
+        roleId: 'contractor',
+      },
+      {
+        id: 'z3',
+        name: { uk: 'Мешканці, які надсилатимуть звернення зі смартфонів', en: 'Residents who will submit requests from their smartphones' },
+        hint: {
+          uk: 'Заради їхньої зручності додаток і створюють; їхні потреби = вимоги',
+          en: 'The app is built for their convenience; their needs are the requirements',
+        },
+        roleId: 'user',
+      },
+      {
+        id: 'z4',
+        name: { uk: 'Міський голова, який контролює проєкт і знімає перешкоди', en: 'The mayor who supervises the project and removes obstacles' },
+        hint: {
+          uk: 'Верховний нагляд і політична підтримка: без нього закупівля не відбудеться',
+          en: 'Top-level oversight and political support: without them the procurement will not happen',
+        },
+        roleId: 'curator',
+      },
+    ],
+  },
+]
+
+// ------------------------------------------------------------
+// ГРА 1 · РІВЕНЬ 2 — перевірка ознак (множинний вибір)
+// РІВЕНЬ 3 — збирання концепції мініпроєкту (3 рішення)
+// ------------------------------------------------------------
+
+export interface SignsCheck {
+  caseText: Bi
+  question: Bi
+  options: { text: Bi; correct: boolean; why: Bi }[]
+}
+
+export const G1_SIGNS_CHECK: SignsCheck = {
+  caseText: {
+    uk: 'Міська рада має відновити спортивний майданчик у парку «Дружба»: змонтувати покриття, встановити снаряди й освітлення, відкрити майданчик до кінця серпня.',
+    en: 'The city council has to restore a sports ground in the Druzhba park: lay the surface, install equipment and lighting, and open the ground by the end of August.',
+  },
+  question: {
+    uk: 'Які твердження правильно описують цю роботу саме як проєкт? Оберіть УСІ правильні варіанти.',
+    en: 'Which statements correctly describe this work as a project? Select ALL correct options.',
+  },
+  options: [
+    {
+      text: { uk: 'Результат унікальний: такого оновленого майданчика в парку ще не було', en: 'The result is unique: the park has never had a renovated ground like this' },
+      correct: true,
+      why: { uk: 'Так — це ознака унікальності.', en: 'Yes — this is the uniqueness feature.' },
+    },
+    {
+      text: { uk: 'Роботи триватимуть без обмеження в часі', en: 'The work will continue without a time limit' },
+      correct: false,
+      why: { uk: 'Ні — у проєкту завжди є дедлайн: тут це кінець серпня. Безстроковість — ознака рутини.', en: 'No — a project always has a deadline: here it is the end of August. An open horizon is a feature of routine.' },
+    },
+    {
+      text: { uk: 'Відомо, що саме буде створено: покриття, снаряди, освітлення', en: 'It is known exactly what will be created: surface, equipment, lighting' },
+      correct: true,
+      why: { uk: 'Так — це ознака визначеності результату.', en: 'Yes — this is the defined-result feature.' },
+    },
+    {
+      text: { uk: 'Процес повторюється щомісяця за графіком', en: 'The process repeats monthly on schedule' },
+      correct: false,
+      why: { uk: 'Ні — повторюваність характеризує поточну діяльність, а не проєкт.', en: 'No — repetitiveness describes ongoing operations, not a project.' },
+    },
+    {
+      text: { uk: 'Робота обмежена в часі: відкриття до кінця серпня', en: 'The work is time-bound: opening by the end of August' },
+      correct: true,
+      why: { uk: 'Так — це ознака обмеженості в часі.', en: 'Yes — this is the time-bound feature.' },
+    },
+  ],
+}
+
+export interface ConceptPick {
+  prompt: Bi
+  options: { text: Bi; quality: 'best' | 'ok' | 'poor'; feedback: Bi }[]
+}
+
+export const G1_CONCEPT_PICKS: ConceptPick[] = [
+  {
+    prompt: {
+      uk: 'Крок 1 · Мета проєкту «Укриття при школі № 3». Яке формулювання найкраще?',
+      en: 'Step 1 · The goal of the “Shelter at School No. 3” project. Which wording is best?',
+    },
+    options: [
+      {
+        text: {
+          uk: 'До 1 вересня обладнати укриття на 300 місць, щоб навчання не переривалося через тривоги',
+          en: 'By 1 September equip a 300-seat shelter so that schooling is not interrupted by alerts',
+        },
+        quality: 'best',
+        feedback: {
+          uk: 'Саме так: конкретний результат, строк і користь для людей — усе в одному реченні.',
+          en: 'Exactly: a concrete result, a deadline and a benefit for people — all in one sentence.',
+        },
+      },
+      {
+        text: { uk: 'Зробити укриття якнайшвидше і якнайкраще', en: 'Make the shelter as soon as possible and as good as possible' },
+        quality: 'ok',
+        feedback: {
+          uk: 'Напрям правильний, але перевірити таку мету неможливо: що таке «якнайшвидше» і «якнайкраще»?',
+          en: 'The direction is right, but such a goal cannot be verified: what exactly are “as soon” and “as good”?',
+        },
+      },
+      {
+        text: { uk: 'Знайти винних у руйнуванні школи і покарати їх', en: 'Find those responsible for the school damage and punish them' },
+        quality: 'poor',
+        feedback: {
+          uk: 'Це не мета проєкту відбудови: вона не створює результату для учнів.',
+          en: 'This is not a recovery project goal: it creates no result for the pupils.',
+        },
+      },
+    ],
+  },
+  {
+    prompt: {
+      uk: 'Крок 2 · Результат проєкту. Що буде «продуктом» роботи команди?',
+      en: 'Step 2 · The project result. What is the team’s “product”?',
+    },
+    options: [
+      {
+        text: {
+          uk: 'Працююче укриття на 300 місць, прийняте комісією, з журналом чергувань',
+          en: 'A working 300-seat shelter accepted by the commission, with a duty log',
+        },
+        quality: 'best',
+        feedback: {
+          uk: 'Так: результат можна пред’явити і перевірити — готовий об’єкт, акт, журнал.',
+          en: 'Right: the result can be shown and verified — a finished facility, an acceptance act, a log.',
+        },
+      },
+      {
+        text: { uk: 'Новий модульний будинок на території школи', en: 'A new modular building on the school grounds' },
+        quality: 'ok',
+        feedback: {
+          uk: 'Частково так: це фізичний об’єкт, але не сказано, чи він готовий до використання за призначенням.',
+          en: 'Partly: it is a physical object, but nothing says it is ready to be used as intended.',
+        },
+      },
+      {
+        text: { uk: 'Звіт про використання бюджетних коштів', en: 'A report on the use of budget funds' },
+        quality: 'poor',
+        feedback: {
+          uk: 'Звіт — документ про процес. Користувачі (діти) не ховаються у звітах під час тривоги.',
+          en: 'A report is a document about the process. Users (children) do not hide in reports during alerts.',
+        },
+      },
+    ],
+  },
+  {
+    prompt: {
+      uk: 'Крок 3 · Строк завершення. Який підхід правильний?',
+      en: 'Step 3 · The completion deadline. Which approach is right?',
+    },
+    options: [
+      {
+        text: {
+          uk: 'До 31 серпня — за два тижні до початку навчального року, з запасом на випробування',
+          en: 'By 31 August — two weeks before the school year, with a margin for testing',
+        },
+        quality: 'best',
+        feedback: {
+          uk: 'Так: строк прив’язаний до події, яка важлива користувачам, і має запас.',
+          en: 'Right: the deadline is tied to the event that matters to users and has a margin.',
+        },
+      },
+      {
+        text: { uk: 'Коли знайдемо підрядника — тоді й визначимося', en: 'When we find a contractor — then we will see' },
+        quality: 'poor',
+        feedback: {
+          uk: 'Без строки немає проєкту: ні плану, ні відповідальності, ні підстави для семінарського бала.',
+          en: 'Without a deadline there is no project: no plan, no accountability, no ground for a seminar point.',
+        },
+      },
+      {
+        text: { uk: 'До 30 листопада: літо краще присвятити іншим справам', en: 'By 30 November: summer is better spent on other matters' },
+        quality: 'ok',
+        feedback: {
+          uk: 'Строк є, але він пропускає весь початок навчального року — головну потребу користувачів.',
+          en: 'There is a deadline, but it misses the entire start of the school year — the users’ key need.',
+        },
+      },
+    ],
+  },
 ]
 
 // ------------------------------------------------------------
@@ -883,6 +1213,10 @@ export interface Game1Outcome {
   totalCards: number
   correctRoles: number
   totalRoles: number
+  correctSigns: number
+  totalSigns: number
+  conceptScore: number
+  conceptMax: number
   mistakes: number
   xp: number
   perfect: boolean
@@ -896,11 +1230,24 @@ export function computeGame1Outcome(
   totalCards: number,
   correctRoles: number,
   totalRoles: number,
+  correctSigns: number,
+  totalSigns: number,
+  conceptScore: number,
+  conceptMax: number,
   firstCompletion: boolean,
 ): Game1Outcome {
-  const mistakes = totalCards - correctCards + (totalRoles - correctRoles)
+  const mistakes =
+    totalCards - correctCards +
+    (totalRoles - correctRoles) +
+    (totalSigns - correctSigns) +
+    (conceptMax - conceptScore)
   const perfect = mistakes === 0
-  const raw = correctCards * XP_PER_CORRECT + correctRoles * XP_PER_CORRECT + (firstCompletion ? XP_COMPLETION_BONUS : 0)
+  const raw =
+    correctCards * XP_PER_CORRECT +
+    correctRoles * XP_PER_CORRECT +
+    correctSigns * XP_PER_CORRECT +
+    conceptScore +
+    (firstCompletion ? XP_COMPLETION_BONUS : 0)
   const xp = firstCompletion ? raw : Math.floor(raw * REPLAY_FACTOR)
   const effect: Partial<Indicators> = firstCompletion
     ? { ...G1_FIRST_EFFECT, ...(perfect ? G1_PERFECT_EFFECT : {}) }
@@ -910,6 +1257,10 @@ export function computeGame1Outcome(
     totalCards,
     correctRoles,
     totalRoles,
+    correctSigns,
+    totalSigns,
+    conceptScore,
+    conceptMax,
     mistakes,
     xp,
     perfect,

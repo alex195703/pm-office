@@ -10,7 +10,7 @@
 // ============================================================
 
 import { useState } from 'react'
-import { getLang, useBi, useL } from '@/lib/pm-i18n'
+import { useBi, useL } from '@/lib/pm-i18n'
 import {
   ACTS,
   BADGES,
@@ -141,8 +141,8 @@ export default function OfficeHub({
               </h2>
               <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/85">
                 {t(
-                  'Перший кейс кар’єри: розрізняємо проєктну та поточну діяльність управління, потім розкладаємо учасників проєкту за ролями. Результат — підстава для семінарського бала.',
-                  'The first case of the career: tell project work from ongoing operations, then assign project participants to their roles. The result is grounds for a seminar point.',
+                  'Перший і найповніший кейс кар’єри: брифінг із теорією, сортування справ на таймері, перевірка ознак проєкту, три сценарії ролей і збирання концепції мініпроєкту. Результат — підстава для семінарського бала.',
+                  'The first and fullest career case: a theory briefing, timed inbox sorting, a project-features check, three role scenarios and a mini-project concept assembly. The result is grounds for a seminar point.',
                 )}
               </p>
             </div>
@@ -155,10 +155,16 @@ export default function OfficeHub({
           </div>
           <div className="mt-3 flex flex-wrap gap-2 text-xs">
             <span className="rounded-lg bg-white/10 px-2.5 py-1">
-              {t('12 карток · таймер', '12 cards · timer')}
+              {t('18 карток · таймер', '18 cards · timer')}
             </span>
             <span className="rounded-lg bg-white/10 px-2.5 py-1">
-              {t('2 сценарії ролей', '2 role scenarios')}
+              {t('ознаки проєкту', 'project features')}
+            </span>
+            <span className="rounded-lg bg-white/10 px-2.5 py-1">
+              {t('3 сценарії ролей', '3 role scenarios')}
+            </span>
+            <span className="rounded-lg bg-white/10 px-2.5 py-1">
+              {t('концепція мініпроєкту', 'mini-project concept')}
             </span>
             <span className="rounded-lg bg-white/10 px-2.5 py-1">
               {g1 ? t(`Найкращий результат: ${g1.best}%`, `Best result: ${g1.best}%`) : t('Результат ще не зафіксовано', 'No result recorded yet')}
@@ -402,12 +408,6 @@ function TeacherReport({
     }
   }
 
-  const openTeacher = () => {
-    const u = new URL('/vykladach', window.location.href)
-    u.searchParams.set('lang', getLang())
-    window.location.assign(u.toString())
-  }
-
   return (
     <details className="group rounded-2xl bg-white p-4 ring-1 ring-stone-200">
       <summary className="cursor-pointer text-sm font-bold text-stone-800 marker:content-none">
@@ -416,8 +416,8 @@ function TeacherReport({
       <div className="mt-3 space-y-3 text-sm leading-relaxed text-stone-600">
         <p>
           {t(
-            'У тренажера немає акаунтів, тому викладач не бачить ваш прогрес автоматично. Заповніть профіль один раз, а після кожного завершеного кейсу копіюйте код звіту й надсилайте викладачу — у чат групи або на пошту. Викладач вставить код у кабінет звітів, і ваші бали з’являться у відомості.',
-            'The simulator has no accounts, so the lecturer cannot see your progress automatically. Fill in the profile once; after each completed case copy the report code and send it to the lecturer — via the group chat or e-mail. The lecturer pastes the code into the reports console, and your points appear in the mark sheet.',
+            'У тренажера немає акаунтів, тому викладач не бачить ваш прогрес автоматично. Заповніть профіль один раз, а після кожного завершеного кейсу копіюйте код звіту й надсилайте викладачу — у чат групи або на пошту. Викладач вставить код у свій кабінет (він захищений PIN-кодом і прихований від студентів), і ваші бали з’являться у відомості.',
+            'There are no accounts, so the lecturer cannot see your progress automatically. Fill in the profile once; after each completed case copy the report code and send it to the lecturer — via the group chat or e-mail. The lecturer pastes the code into their own console (PIN-protected and hidden from students), and your points appear in the mark sheet.',
           )}
         </p>
         <div className="grid gap-2 sm:grid-cols-[1fr_1fr_auto] sm:items-center">
@@ -472,14 +472,6 @@ function TeacherReport({
             )}
           </p>
         </div>
-        <p>
-          <button
-            onClick={openTeacher}
-            className="font-semibold text-[#15857A] underline transition hover:text-[#0E6B62]"
-          >
-            {t('Ви викладач? Відкрийте кабінет звітів →', 'Are you the lecturer? Open the reports console →')}
-          </button>
-        </p>
       </div>
     </details>
   )

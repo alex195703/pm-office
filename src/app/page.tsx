@@ -71,7 +71,11 @@ export default function PmOfficeApp() {
         const key = k as IndicatorId
         indicators[key] = clampInd(indicators[key] + (v ?? 0))
       }
-      const pct = Math.round(((o.correctCards + o.correctRoles) / (o.totalCards + o.totalRoles)) * 100)
+      const pct = Math.round(
+        ((o.correctCards + o.correctRoles + o.correctSigns + o.conceptScore) /
+          (o.totalCards + o.totalRoles + o.totalSigns + o.conceptMax)) *
+          100,
+      )
       const rec = prev.games['g1'] ?? { best: 0, completions: 0 }
       return {
         ...prev,
@@ -162,12 +166,10 @@ export default function PmOfficeApp() {
           )}
         </p>
         <p className="mt-2">
-          <a
-            href="/vykladach"
-            className="font-semibold text-white/90 underline transition hover:text-white"
-          >
-            {t('Кабінет викладача', 'Lecturer console')}
-          </a>
+          {t(
+            'Студентам: код звіту викладачу — у розділі «Профіль студента» нижче.',
+            'Students: the report code for the lecturer is in the “Student profile” section below.',
+          )}
         </p>
       </footer>
     </div>
