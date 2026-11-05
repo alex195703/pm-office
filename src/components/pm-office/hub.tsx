@@ -23,15 +23,16 @@ import {
   reportCode,
   type Progress,
 } from '@/lib/pm-office'
+import { GAME_ORDER, GAMES } from '@/lib/games'
 
 export default function OfficeHub({
   progress,
-  onPlayGame1,
+  onPlayGame,
   onImportProgress,
   onProfile,
 }: {
   progress: Progress
-  onPlayGame1: () => void
+  onPlayGame: (id: string) => void
   onImportProgress: (p: Progress) => void
   onProfile: (name: string, group: string) => void
 }) {
@@ -43,6 +44,11 @@ export default function OfficeHub({
   const rankPct = nxt ? Math.round(((progress.xp - rank.xp) / (nxt.xp - rank.xp)) * 100) : 100
   const g1 = progress.games['g1']
   const hasConceptor = progress.badges.includes('conceptor')
+
+  // наступний незавершений кейс: g1, потім g2… (лише побудовані)
+  const courseLine = ['g1', ...GAME_ORDER]
+  const nextCase = courseLine.find((id) => (progress.games[id]?.completions ?? 0) === 0)
+  const availableCount = 1 + GAME_ORDER.length
 
   return (
     <div className="space-y-6">
@@ -128,47 +134,64 @@ export default function OfficeHub({
         </div>
       </section>
 
-      {/* ================= ПОТОЧНА ГРА ================= */}
+      {/* ================= ПОТОЧНИЙ КЕЙС ================= */}
       <section className="overflow-hidden rounded-2xl bg-white ring-1 ring-stone-200" aria-labelledby="g1-h">
         <div className="bg-gradient-to-br from-[#15857A] to-[#0E6B62] p-5 text-white sm:p-6">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
               <div className="text-[11px] font-bold uppercase tracking-widest text-white/70">
-                {t('Семінар 1 · Тема 1 · Вступ, поняття і концепція проєкту', 'Seminar 1 · Topic 1 · Introduction: the concept of a project')}
+                {nextCase
+                  ? t(
+                      'Наступний кейс кар’єри',
+                      'Your next career case',
+                    )
+                  : t('Усі доступні кейси пройдені', 'All available cases completed')}
               </div>
               <h2 id="g1-h" className="mt-1 text-xl font-bold sm:text-2xl">
-                {t('«Проєкт чи рутина?»', '“Project or Routine?”')}
+                {nextCase
+                  ? nextCase === 'g1'
+                    ? t('«Проєкт чи рутина?»', '“Project or Routine?”')
+                    : B(GAMES[nextCase].title)
+                  : t('Можна проходити кейси повторно', 'You can replay any case')}
               </h2>
               <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/85">
-                {t(
-                  'Перший і найповніший кейс кар’єри: брифінг із теорією, сортування справ на таймері, перевірка ознак проєкту, три сценарії ролей і збирання концепції мініпроєкту. Результат — підстава для семінарського бала.',
-                  'The first and fullest career case: a theory briefing, timed inbox sorting, a project-features check, three role scenarios and a mini-project concept assembly. The result is grounds for a seminar point.',
-                )}
+                {nextCase
+                  ? nextCase === 'g1'
+                    ? t(
+                        'Перший і найповніший кейс кар’єри: брифінг із теорією, сортування справ на таймері, перевірка ознак проєкту, три сценарії ролей і збирання концепції мініпроєкту. Результат — підстава для семінарського бала.',
+                        'The first and fullest career case: a theory briefing, timed inbox sorting, a project-features check, three role scenarios and a mini-project concept assembly. The result is grounds for a seminar point.',
+                      )
+                    : B(GAMES[nextCase].summary)
+                  : t(
+                      'Кейси можна проходити повторно — найкращий результат уже зафіксовано, а повторне проходження дає половину досвіду.',
+                      'Cases can be replayed — your best result is kept, and a replay earns half the XP.',
+                    )}
               </p>
             </div>
             <button
-              onClick={onPlayGame1}
+              onClick={() => onPlayGame(nextCase ?? 'g1')}
               className="rounded-xl bg-white px-6 py-3 text-sm font-bold text-[#15857A] shadow transition hover:bg-[#F4F1E9]"
             >
-              ▶ {g1 ? t('Пройти ще раз', 'Run it again') : t('Почати кейс', 'Start the case')}
+              {nextCase
+                ? `▶ ${t(nextCase === 'g1' ? 'Почати кейс' : 'Продовжити курс', nextCase === 'g1' ? 'Start the case' : 'Continue the course')}`
+                : `▶ ${t('Повторити кейс 1', 'Replay case 1')}`}
             </button>
           </div>
           <div className="mt-3 flex flex-wrap gap-2 text-xs">
             <span className="rounded-lg bg-white/10 px-2.5 py-1">
-              {t('18 карток · таймер', '18 cards · timer')}
+              {t(
+                `доступно кейсів: ${availableCount} з 18`,
+                `available cases: ${availableCount} of 18`,
+              )}
             </span>
-            <span className="rounded-lg bg-white/10 px-2.5 py-1">
-              {t('ознаки проєкту', 'project features')}
-            </span>
-            <span className="rounded-lg bg-white/10 px-2.5 py-1">
-              {t('3 сценарії ролей', '3 role scenarios')}
-            </span>
-            <span className="rounded-lg bg-white/10 px-2.5 py-1">
-              {t('концепція мініпроєкту', 'mini-project concept')}
-            </span>
-            <span className="rounded-lg bg-white/10 px-2.5 py-1">
-              {g1 ? t(`Найкращий результат: ${g1.best}%`, `Best result: ${g1.best}%`) : t('Результат ще не зафіксовано', 'No result recorded yet')}
-            </span>
+            {g1 && (
+              <span className="rounded-lg bg-white/10 px-2.5 py-1">
+                {t(`Кейс 1: найкращий ${g1.best}%`, 'Case 1: best ' + g1.best + '%')}
+              </span>
+            )}
+            {hasConceptor && (
+              <span className="rounded-lg bg-white/10 px-2.5 py-1">🧭 {t('бейдж «Концептор»', '“Concept Keeper” badge')}</span>
+            )}
           </div>
         </div>
       </section>
@@ -191,23 +214,32 @@ export default function OfficeHub({
               <ul className="mt-3 space-y-2">
                 {act.rows.map((row) => {
                   const isG1 = row.gameId === 'g1'
-                  const done = row.gameId && progress.games[row.gameId]
+                  const playable = !!row.gameId && (isG1 || !!GAMES[row.gameId])
+                  const done = row.gameId ? (progress.games[row.gameId]?.completions ?? 0) > 0 : false
+                  const best = row.gameId ? progress.games[row.gameId]?.best ?? 0 : 0
                   return (
                     <li
                       key={row.id}
                       className={`rounded-xl p-3 ring-1 ${
-                        isG1 ? 'bg-[#F4F1E9] ring-[#15857A]/40' : 'bg-stone-50 ring-stone-200/70'
+                        playable
+                          ? 'bg-[#F4F1E9] ring-[#15857A]/40'
+                          : 'bg-stone-50 ring-stone-200/70'
                       }`}
                     >
                       <div className="flex flex-wrap items-center justify-between gap-2">
                         <div className="min-w-0 flex-1">
                           <div className="flex flex-wrap items-center gap-x-2 text-xs">
-                            <span className={`font-bold ${isG1 ? 'text-[#15857A]' : 'text-stone-500'}`}>{B(row.label)}</span>
+                            <span className={`font-bold ${playable ? 'text-[#15857A]' : 'text-stone-500'}`}>{B(row.label)}</span>
                             <span className="text-stone-400">·</span>
                             <span className="text-stone-600">{B(row.theme)}</span>
                           </div>
-                          <div className={`mt-0.5 text-sm font-semibold ${isG1 ? 'text-stone-900' : done ? 'text-stone-700' : 'text-stone-500'}`}>
+                          <div className={`mt-0.5 text-sm font-semibold ${playable ? 'text-stone-900' : done ? 'text-stone-700' : 'text-stone-500'}`}>
                             {B(row.game)}
+                            {done && (
+                              <span className="ml-2 inline-block rounded-md bg-[#15857A]/10 px-1.5 py-0.5 align-middle text-[10px] font-bold text-[#15857A]">
+                                ✓ {best}%
+                              </span>
+                            )}
                           </div>
                           <div className="mt-0.5 text-[11px] leading-snug text-stone-400">{B(row.mechanic)}</div>
                         </div>
@@ -217,12 +249,12 @@ export default function OfficeHub({
                               {row.points} {row.points === 1 ? t('бал', 'pt') : t('бали', 'pts')}
                             </span>
                           )}
-                          {isG1 ? (
+                          {playable ? (
                             <button
-                              onClick={onPlayGame1}
+                              onClick={() => onPlayGame(row.gameId!)}
                               className="rounded-lg bg-[#15857A] px-3 py-1.5 text-xs font-bold text-white transition hover:bg-[#0E6B62]"
                             >
-                              ▶ {t('Пройти', 'Run')}
+                              ▶ {done ? t('Повторити', 'Replay') : t('Пройти', 'Run')}
                             </button>
                           ) : (
                             <span className="rounded-lg bg-stone-100 px-2.5 py-1.5 text-[11px] font-medium text-stone-400">

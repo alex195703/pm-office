@@ -23,10 +23,13 @@ import {
   type IndicatorId,
   type Progress,
 } from '@/lib/pm-office'
+import { GAME_ORDER, GAMES } from '@/lib/games'
+import type { ScenarioOutcome } from '@/lib/scenario'
 import OfficeHub from '@/components/pm-office/hub'
 import SortGame from '@/components/pm-office/sort-game'
+import ScenarioGame from '@/components/pm-office/scenario-game'
 
-type View = 'office' | 'g1'
+type View = 'office' | string // 'office' | id кейса ('g1'…'g15','kr1','kr2','cap','exam')
 
 export default function PmOfficeApp() {
   const t = useL()
@@ -90,6 +93,32 @@ export default function PmOfficeApp() {
     })
   }
 
+  /** Спільний обробник завершення сценарного кейса (g2 … exam) */
+  const applyScenarioOutcome = (o: ScenarioOutcome) => {
+    setProgress((prev) => {
+      const badges =
+        o.badgeEarned && o.badgeId && !prev.badges.includes(o.badgeId)
+          ? [...prev.badges, o.badgeId]
+          : prev.badges
+      const indicators = { ...prev.indicators }
+      for (const [k, v] of Object.entries(o.effect)) {
+        const key = k as IndicatorId
+        indicators[key] = clampInd(indicators[key] + (v ?? 0))
+      }
+      const rec = prev.games[o.id] ?? { best: 0, completions: 0 }
+      return {
+        ...prev,
+        xp: prev.xp + o.xp,
+        badges,
+        indicators,
+        games: {
+          ...prev.games,
+          [o.id]: { best: Math.max(rec.best, o.pct), completions: rec.completions + 1 },
+        },
+      }
+    })
+  }
+
   const backToOffice = () => {
     setView('office')
     if (typeof window !== 'undefined') window.scrollTo({ top: 0 })
@@ -138,16 +167,54 @@ export default function PmOfficeApp() {
         {view === 'office' ? (
           <OfficeHub
             progress={progress}
-            onPlayGame1={() => setView('g1')}
+            onPlayGame={(id) => {
+              setView(id)
+              window.scrollTo({ top: 0 })
+            }}
             onImportProgress={setProgress}
             onProfile={(name, group) => setProgress((prev) => ({ ...prev, name, group }))}
           />
-        ) : (
+        ) : view === 'g1' ? (
           <SortGame
             firstCompletion={!(progress.games['g1'] && progress.games['g1'].completions > 0)}
             onFinish={applyOutcome}
             onExit={backToOffice}
           />
+        ) : GAMES[view] ? (
+          <ScenarioGame
+            key={view}
+            def={GAMES[view]}
+            firstCompletion={!(progress.games[view] && progress.games[view].completions > 0)}
+            onFinish={applyScenarioOutcome}
+            onExit={backToOffice}
+            onNext={
+              GAME_ORDER.indexOf(view) >= 0 && GAME_ORDER.indexOf(view) + 1 < GAME_ORDER.length
+                ? () => {
+                    setView(GAME_ORDER[GAME_ORDER.indexOf(view) + 1])
+                    window.scrollTo({ top: 0 })
+                  }
+                : undefined
+            }
+          />
+        ) : (
+          <div className="rounded-2xl bg-white p-8 text-center ring-1 ring-stone-200">
+            <div className="text-4xl">🚧</div>
+            <h2 className="mt-3 text-lg font-bold text-stone-800">
+              {t('Кейс ще збирається', 'The case is still being built')}
+            </h2>
+            <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-stone-600">
+              {t(
+                'Цей кейс курсу перебуває у розробці. Поверніться до хаба — там видно всі вже доступні кейси.',
+                'This course case is still in development. Return to the hub — all currently available cases are listed there.',
+              )}
+            </p>
+            <button
+              onClick={backToOffice}
+              className="mt-4 rounded-xl bg-[#15857A] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#0E6B62]"
+            >
+              {t('До проєктного офісу', 'Back to the project office')}
+            </button>
+          </div>
         )}
       </main>
 

@@ -353,6 +353,7 @@ export const ACTS: Act[] = [
           en: 'A phase map: pre-investment, investment, operation',
         },
         points: 1,
+        gameId: 'g2',
       },
       {
         id: 's3',
@@ -365,6 +366,7 @@ export const ACTS: Act[] = [
           en: 'Placing explicit and implicit benefits and costs on the scales',
         },
         points: 1,
+        gameId: 'g3',
       },
       {
         id: 's4',
@@ -377,6 +379,7 @@ export const ACTS: Act[] = [
           en: 'Compounding and discounting against the clock, inflation premium',
         },
         points: 1,
+        gameId: 'g4',
       },
       {
         id: 's5',
@@ -389,6 +392,7 @@ export const ACTS: Act[] = [
           en: 'Calculating NPV, IRR and payback period; ranking applications',
         },
         points: 1,
+        gameId: 'g5',
       },
       {
         id: 's6',
