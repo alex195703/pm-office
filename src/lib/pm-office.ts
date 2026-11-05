@@ -405,6 +405,7 @@ export const ACTS: Act[] = [
           en: 'Planning stages, goal tree, business plan structure',
         },
         points: 1,
+        gameId: 'g6',
       },
       {
         id: 's7',
@@ -417,6 +418,7 @@ export const ACTS: Act[] = [
           en: 'Decomposition with the 100% rule, responsibility matrix',
         },
         points: 1,
+        gameId: 'g7',
       },
       {
         id: 's8',
@@ -429,6 +431,7 @@ export const ACTS: Act[] = [
           en: 'Network diagram, critical path, time reserves, deadline',
         },
         points: 2,
+        gameId: 'g8',
       },
       {
         id: 's9',
@@ -441,6 +444,7 @@ export const ACTS: Act[] = [
           en: 'Team building, conflict scenarios, choice of communication channels',
         },
         points: 2,
+        gameId: 'g9',
       },
       {
         id: 's10',
@@ -453,6 +457,7 @@ export const ACTS: Act[] = [
           en: 'Matching functions to systems: MS Project, Primavera, Spider Project, etc.',
         },
         points: 2,
+        gameId: 'g10',
       },
       {
         id: 'kr1',
@@ -465,6 +470,7 @@ export const ACTS: Act[] = [
           en: 'Test battle: 10 questions × 0.5 points — a rehearsal of the module test',
         },
         points: null,
+        gameId: 'kr1',
       },
     ],
   },
@@ -487,6 +493,7 @@ export const ACTS: Act[] = [
           en: 'Four mini-assessments: community market, economic impact, institutions, finance',
         },
         points: 1,
+        gameId: 'g11',
       },
       {
         id: 's12',
@@ -502,6 +509,7 @@ export const ACTS: Act[] = [
           en: 'Site and technology choice, environmental factors, lawful procurement, community engagement',
         },
         points: 1,
+        gameId: 'g12',
       },
       {
         id: 's13',
@@ -514,6 +522,7 @@ export const ACTS: Act[] = [
           en: 'Risk identification, probability × impact matrix',
         },
         points: 1,
+        gameId: 'g13',
       },
       {
         id: 's14',
@@ -526,6 +535,7 @@ export const ACTS: Act[] = [
           en: 'Response choice: avoidance, mitigation, transfer, acceptance; reserves',
         },
         points: 2,
+        gameId: 'g14',
       },
       {
         id: 's15',
@@ -538,6 +548,7 @@ export const ACTS: Act[] = [
           en: 'Decision tree, visual Monte Carlo, decision criteria under uncertainty',
         },
         points: 2,
+        gameId: 'g15',
       },
       {
         id: 'kr2',
@@ -550,6 +561,7 @@ export const ACTS: Act[] = [
           en: 'Test battle: 10 questions × 0.5 points — a rehearsal of the module test',
         },
         points: null,
+        gameId: 'kr2',
       },
     ],
   },
@@ -572,6 +584,7 @@ export const ACTS: Act[] = [
           en: 'A builder of the recovery project passport from the artefacts of all games',
         },
         points: null,
+        gameId: 'cap',
       },
       {
         id: 'exam',
@@ -584,6 +597,7 @@ export const ACTS: Act[] = [
           en: 'Training based on the exam ticket structure with self-assessment',
         },
         points: null,
+        gameId: 'exam',
       },
     ],
   },

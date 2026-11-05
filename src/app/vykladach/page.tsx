@@ -204,6 +204,10 @@ export default function VykladachPage() {
 
   const totalXp = entries.reduce((s, e) => s + e.progress.xp, 0)
   const playedG1 = entries.filter((e) => (e.progress.games['g1']?.completions ?? 0) > 0).length
+  const totalCasesDone = entries.reduce(
+    (s, e) => s + Object.values(e.progress.games).filter((g) => g.completions > 0).length,
+    0,
+  )
   const rankIdx = (xp: number) => RANKS.findIndex((r) => r.id === rankFor(xp).id) + 1
   const fmtDate = (d: number) =>
     new Date(d).toLocaleDateString('uk-UA', { day: '2-digit', month: '2-digit', year: 'numeric' })
@@ -219,6 +223,7 @@ export default function VykladachPage() {
       t('Рівень', 'Level'),
       t('Семінар 1, %', 'Seminar 1, %'),
       t('Спроби семінару 1', 'Seminar 1 attempts'),
+      t('Кейсів пройдено', 'Cases completed'),
       t('Бейджі, к-ть', 'Badges, count'),
       t('Бейджі', 'Badges'),
       t('Добробут', 'Wellbeing'),
@@ -245,6 +250,7 @@ export default function VykladachPage() {
         rankIdx(e.progress.xp),
         g1 ? g1.best : '',
         g1 ? g1.completions : 0,
+        Object.values(e.progress.games).filter((g) => g.completions > 0).length,
         owned.length,
         owned.map((b) => B(b.name)).join('; '),
         e.progress.indicators.wellbeing ?? '',
@@ -425,6 +431,9 @@ export default function VykladachPage() {
                 </span>
                 <span className="rounded-xl bg-white px-3 py-2 font-semibold text-stone-700 ring-1 ring-stone-200">
                   🎮 {t('Кейс 1 пройшли', 'Case 1 completed')}: <b>{playedG1}</b>
+                </span>
+                <span className="rounded-xl bg-white px-3 py-2 font-semibold text-stone-700 ring-1 ring-stone-200">
+                  📚 {t('Кейсів пройдено (усіма студентами)', 'Cases completed (all students)')}: <b>{totalCasesDone}</b>
                 </span>
               </div>
               <div className="flex flex-wrap items-center gap-2">
